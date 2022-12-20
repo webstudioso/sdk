@@ -1,0 +1,26 @@
+{
+  "name": "dappify-sdk",
+  "version": "0.0.1",
+  "description": "",
+  "main": "dist/main.js",
+  "src": "src/index.js",
+  "sourceType": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify src/index.js -p esmify | terser --compress --comments false --mangle > dist/main.js;"
+  },
+  "author": "DappifyWeb3",
+  "license": "ISC",
+  "dependencies": {
+    "@thirdweb-dev/sdk": "^3.6.8",
+    "@uauth/js": "^2.4.0",
+    "@uauth/web3modal": "^2.4.0",
+    "@walletconnect/web3-provider": "^1.8.0",
+    "ethers": "^5.7.2",
+    "web3modal": "^1.9.10"
+  },
+  "devDependencies": {
+    "browser-resolve": "^2.0.0",
+    "esmify": "^2.1.1"
+  }
+}
