@@ -5,7 +5,7 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 
 
-window.dappify = {
+window.webstudio = {
 	ThirdwebSDK,
 	UAuthWeb3Modal,
 	UAuthSPA,
@@ -13,5 +13,4 @@ window.dappify = {
 	Web3Modal,
 }
 
-console.log("Dappify bundle loaded...") 
-console.log(dappify);
+console.log("Webstudio bundle loaded...") 
