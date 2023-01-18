@@ -1,6 +1,6 @@
 {
   "name": "webstudio-sdk",
-  "version": "0.0.3",
+  "version": "0.0.6",
   "description": "",
   "main": "dist/main.js",
   "src": "src/index.js",
