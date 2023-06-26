@@ -136,7 +136,10 @@ const formatAddress = (address) => {
 }
 
 const toHex = (input) => {
-    return ethers.utils.hexValue(input).trim()
+    console.debug(`Parsing to hex ${input}`)
+    const parsedValue = ethers.utils.hexValue(input).trim()
+    console.debug(`Parsed to ${parsedValue}`)
+    return parsedValue
 }
 
 const validateNetwork = (network, onSuccess = () => {}) => {
