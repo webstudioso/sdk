@@ -1,7 +1,7 @@
 import constants from './constant'
 import abi from './abi.json'
 
-const { EVENT, STANDARD } = constants
+const { EVENT, STANDARD, CACHE } = constants
 
 const getComponent = (id) => {
     const component = document.getElementById(id)
@@ -13,6 +13,11 @@ const isEditor = () => {
     const isEditorView = window.location.href.includes('/e/')
     console.debug(`isEditor ${isEditorView}`)
     return isEditorView
+}
+
+const setComponentText = (id, text) => {
+    const cmp = getComponent(id)
+    cmp.textContent = text
 }
 
 const show = (id) => {
@@ -63,6 +68,23 @@ const getProvider = () => {
     return new window.ethers.providers.Web3Provider(window.walletProvider)
 }
 
+const getCachedProvider = () => {
+    return localStorage.getItem(CACHE)
+}
+
+
+const getProviderOptions = (infuraId) => {
+    const providerOptions = {
+        walletconnect: {
+            package: window.webstudio.WalletConnectProvider,
+            options: {
+                infuraId
+            }
+        }
+    }
+    return providerOptions
+}
+
 const getSigner = () => {
     const provider = getProvider()
     const signer = provider.getSigner()
@@ -76,22 +98,11 @@ const initComponent = (id, handler=()=>{}) => {
         console.log(`Listeners cannot be added to component ${id} while in editor mode`)
         return
     }
-    if (!window.listeners)
-        window.listeners = []
-    if (!window.listeners[id])
-        window.listeners[id] = []
-    if (window.listeners[id].length > 0) {
-        console.log(`Listeners already exist for component ${id}`)
-        return
-    }
-    console.debug(`Adding listeners for component ${id}`)
-    window.listeners[id] = [
-        document.addEventListener(EVENT.ACCOUNT_CHANGED, handler),
-        document.addEventListener(EVENT.CHAIN_CHANGED, handler),
-        document.addEventListener(EVENT.NETWORK_CHANGED, handler),
-        document.addEventListener(EVENT.CONNECTED, handler),
-        document.addEventListener(EVENT.DISCONNECTED, handler),
-    ]
+    document.addEventListener(EVENT.ACCOUNT_CHANGED, handler)
+    document.addEventListener(EVENT.CHAIN_CHANGED, handler)
+    document.addEventListener(EVENT.NETWORK_CHANGED, handler)
+    document.addEventListener(EVENT.CONNECTED, handler)
+    document.addEventListener(EVENT.DISCONNECTED, handler)
     handler()
 }
 
@@ -120,6 +131,55 @@ const getBalances = ({ address, standard=STANDARD.ERC721, tokenIds=[], handler=(
     }
 }
 
+const formatAddress = (address) => {
+    return `${address.slice(0, 6)}...${address.slice(address.length-4, address.length)}`
+}
+
+const toHex = (input) => {
+    return ethers.utils.hexValue(input).trim()
+}
+
+const validateNetwork = (network, onSuccess = () => {}) => {
+    const chainId = toHex(network.chainId)
+    window.walletProvider.request({
+        method: 'wallet_switchEthereumChain',
+        params: [{ chainId }],
+    }).then(() => {
+        onSuccess()
+    }).catch((switchError) => {
+        console.debug(switchError)
+        // The network has not been added to MetaMask
+        if (switchError.code === 4902) {
+          window.walletProvider.request({
+            method: 'wallet_addEthereumChain',
+            params: [
+                {
+                  chainId: chainId, 
+                  chainName: network.name,
+                  rpcUrls: network.rpc,                   
+                  blockExplorerUrls: network.explorers,  
+                  nativeCurrency: network.nativeCurrency
+                }
+            ]});
+        } else {
+          const errMsg = "Cannot switch to the network";
+          console.debug(errMsg)
+          onErrorMessage(errMsg)
+        }
+    });
+}
+
+const isJson = (str) => {
+    try {
+        const val = JSON.parse(str);
+        if (val && typeof val === 'object')
+            return true
+    } catch (e) {
+        console.log(e)
+    }
+    return false
+}
+
 export default {
     getComponent,
     isEditor,
@@ -133,5 +193,12 @@ export default {
     initComponent,
     getSigner,
     getContract,
-    getBalances
+    getBalances,
+    getProviderOptions,
+    formatAddress,
+    setComponentText,
+    getCachedProvider,
+    validateNetwork,
+    toHex,
+    isJson
 }
