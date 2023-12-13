@@ -41,7 +41,7 @@ const sendNotification = (alertSeverity, message, link, timeout) => {
     };
     const cEvent = new CustomEvent('onToast', detail)
     console.debug(`Sending notification of ${alertSeverity} with message ${message} and link ${link} for timeout ${timeout}`)
-    document.dispatchEvent(cEvent);
+    document.dispatchEvent(cEvent)
 }
 
 const onSuccessMessage = (message, link=null, timeout=5000) => {
@@ -55,12 +55,12 @@ const onErrorMessage = (message, link=null, timeout=5000) => {
 const getAccount = () => {
     console.debug(`Retrieving wallet account from provider ${window.walletProvider}`)
     const provider = window.walletProvider;
-    if (!provider) return;
+    if (!provider) return
 
     if (provider.accounts && provider.accounts.length > 0)
-      return provider.accounts[0];
+      return provider.accounts[0]
     
-    return provider.selectedAddress;
+    return provider.selectedAddress
 }
 
 const getProvider = () => {
@@ -150,10 +150,7 @@ const validateNetwork = (network, onSuccess = () => {}) => {
     }).then(() => {
         onSuccess()
     }).catch((switchError) => {
-        console.debug(switchError)
-        // The network has not been added to MetaMask
-        if (switchError.code === 4902) {
-          window.walletProvider.request({
+        window.walletProvider.request({
             method: 'wallet_addEthereumChain',
             params: [
                 {
@@ -163,18 +160,32 @@ const validateNetwork = (network, onSuccess = () => {}) => {
                   blockExplorerUrls: network.explorers,  
                   nativeCurrency: network.nativeCurrency
                 }
-            ]});
-        } else {
-          const errMsg = "Cannot switch to the network";
-          console.debug(errMsg)
-          onErrorMessage(errMsg)
-        }
-    });
+            ]})
+        // console.debug(switchError)
+        // // The network has not been added to MetaMask
+        // if (switchError.code === 4902) {
+        //   window.walletProvider.request({
+        //     method: 'wallet_addEthereumChain',
+        //     params: [
+        //         {
+        //           chainId: chainId, 
+        //           chainName: network.name,
+        //           rpcUrls: network.rpc,                   
+        //           blockExplorerUrls: network.explorers,  
+        //           nativeCurrency: network.nativeCurrency
+        //         }
+        //     ]});
+        // } else {
+        //   const errMsg = "Cannot switch to the network";
+        //   console.debug(errMsg)
+        //   onErrorMessage(errMsg)
+        // }
+    })
 }
 
 const isJson = (str) => {
     try {
-        const val = JSON.parse(str);
+        const val = JSON.parse(str)
         if (val && typeof val === 'object')
             return true
     } catch (e) {
