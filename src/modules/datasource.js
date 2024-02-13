@@ -76,3 +76,6 @@ export const onDataChanged = async (event) => {
 
 // Listen to data changes to trigger refresh
 document.addEventListener(EVENT.DATA_CHANGED, onDataChanged)
+
+// Trigger on initialization
+onDataChanged()

@@ -1,6 +1,6 @@
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers'
 import { ethers } from 'ethers'
-import { getSigner } from 'utils/web3'
+import { getSigner } from './utils/web3'
 
 export const version = process?.env?.npm_package_version
 
