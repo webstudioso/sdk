@@ -1,6 +1,7 @@
 const constants = {
     CACHE: 'WEB3_CONNECT_CACHED_PROVIDER',
     EVENT: {
+        DATA_CHANGED: 'DataChanged',
         CLICK: 'click',
         CONNECTED: 'Connected',
         ACCOUNT_CHANGED: 'accountsChanged',

@@ -1,6 +1,6 @@
 {
   "name": "webstudio-sdk",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Webstudio Javascript SDK",
   "main": "dist/main.js",
   "src": "src/index.js",
@@ -30,6 +30,7 @@
     "webpack-cli": "^5.1.4"
   },
   "jest": {
+    "maxWorkers": 1,
     "transform": {
       "^.+\\.[t|j]sx?$": "babel-jest"
     },
