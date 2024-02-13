@@ -1,4 +1,4 @@
-import { getComponent } from '../utils'
+// import { getComponent } from '../utils'
 
 describe('Webstudio Utils', () => {
 

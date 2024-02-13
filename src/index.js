@@ -1,23 +1,18 @@
+// import { createWeb3Modal, defaultConfig } from '@web3modal/ethers'
+// import { ethers } from 'ethers'
 
-import utils from './utils';
-import constants from './constant';
-import abi from './abi.json';
-import { createWeb3Modal, defaultConfig } from '@web3modal/ethers';
-import { ethers } from 'ethers';
+// export const version = process?.env?.npm_package_version
 
-const webstudio = {
-	utils,
-	constants,
-	abi,
-	ethers,
-	web3Modal: {
-		createWeb3Modal,
-		defaultConfig
-	}
+export const webstudio = {
+	// ethers,
+	// web3Modal: {
+	// 	createWeb3Modal,
+	// 	defaultConfig
+	// },
+	// version
 }
 
-window.webstudio = webstudio
+// Available in window scope for fns and constants
+// window.webstudio = webstudio
 
-export default webstudio
-
-console.log("Webstudio bundle loaded...") 
+// console.log(`Webstudio SDK Ver.${version} loaded...`) 
