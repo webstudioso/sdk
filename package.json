@@ -7,6 +7,7 @@
   "sourceType": "module",
   "scripts": {
     "test": "jest --collectCoverage=true",
+    "test-ci": "jest --ci --coverage",
     "coverage": "jest --coverage",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
@@ -42,6 +43,7 @@
       "<rootDir>"
     ],
     "coverageReporters": [
+      "json-summary",
       "json",
       "text",
       "html",
