@@ -2,7 +2,8 @@ import { ethers } from 'ethers'
 
 const {
     BrowserProvider,
-    JsonRpcProvider
+    JsonRpcProvider,
+    Network
 } = ethers
 
 /**
@@ -23,7 +24,7 @@ export const getSigner = async () => {
         const network = window?.modal?.options?.defaultChain[0]
         const url = network?.rpcUrl
         console.log(network)
-        signer = new JsonRpcProvider(url, network)
+        signer = new JsonRpcProvider(url, Network.from(network), { staticNetwork: network })
     }
     return signer
 }
