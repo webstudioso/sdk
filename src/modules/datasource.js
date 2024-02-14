@@ -58,6 +58,7 @@ export const onDataChanged = async (event) => {
     const currentProvider = await getSigner()
     const defaultProvider = getDefaultJsonRPCProvider()
     const provider = currentProvider || defaultProvider 
+    console.log(`Providers for read only contract call current ${currentProvider}, default ${defaultProvider}`)
     // Assemble calls
     smartContractMappedTextFields.forEach((element) => {
         const { contract, method, format } = element.attributes

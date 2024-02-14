@@ -12,7 +12,9 @@ const {
 export const getSigner = async () => {
     const wallet = window?.modal?.getWalletProvider()
     const provider = new BrowserProvider(wallet)
-    return await provider.getSigner()
+    const signer = await provider.getSigner()
+    console.log(`getSigner ${signer}`)
+    return signer
 }
 
 /**
@@ -22,5 +24,6 @@ export const getSigner = async () => {
 export const getDefaultJsonRPCProvider = () => {
     const url = window?.modal?.options?.defaultChain[0].rpcUrl
     const provider = new JsonRpcProvider(url)
+    console.log(`getDefaultJsonRPCProvider ${provider}`)
     return provider
 }
