@@ -41,5 +41,14 @@ describe('Datasource', () => {
             expect(document.getElementById('b').textContent).toEqual('123456789000000000000000000')
         })
 
+        it('uses default provider instead of signed provider if unavailable', async () => {
+
+            ethers.BrowserProvider.mockReturnValue(null)
+            ethers.JsonRpcProvider.mockImplementation(() => { return { getSigner: jest.fn().mockResolvedValue('signer') } })
+
+            const totalUpdated = await onDataChanged()
+            expect(totalUpdated).toEqual(2)
+        })
+
     })
 })

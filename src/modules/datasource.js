@@ -6,7 +6,7 @@
  * View DatasourceTrait in studio project to learn more.
  */
 import { ethers } from 'ethers'
-import { getSigner } from '../utils/web3'
+import { getDefaultJsonRPCProvider, getSigner } from '../utils/web3'
 import constants from '../constant'
 
 const {
@@ -54,13 +54,16 @@ export const onDataChanged = async (event) => {
     const promises = []
     const fields = []
     let refreshedValues
-    const signer = await getSigner()
+    // Signer if connected, main chain from Web3Modal config if not connected
+    const currentProvider = await getSigner()
+    const defaultProvider = getDefaultJsonRPCProvider()
+    const provider = currentProvider || defaultProvider 
     // Assemble calls
     smartContractMappedTextFields.forEach((element) => {
         const { contract, method, format } = element.attributes
         const methodAbi = parseAbiMethod(method?.value)
         if (contract && methodAbi && format) {
-            const contractTgt = new Contract(contract.value, [methodAbi], signer)
+            const contractTgt = new Contract(contract.value, [methodAbi], provider)
             const targetFunction = contractTgt[methodAbi.name]
             const attrs = null // To be added support on later iteration
             promises.push(targetFunction.apply(null, attrs))
