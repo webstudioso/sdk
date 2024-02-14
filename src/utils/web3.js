@@ -2,8 +2,7 @@ import { ethers } from 'ethers'
 
 const {
     BrowserProvider,
-    JsonRpcProvider,
-    Network
+    getDefaultProvider
 } = ethers
 
 /**
@@ -11,20 +10,17 @@ const {
  * @returns Provider used for signing contract calls
  */
 export const getSigner = async () => {
-    let signer
-    try {
-        // Signed users
-        const wallet = window?.modal?.getWalletProvider()
-        const provider = new BrowserProvider(wallet)
+    let signer, provider
+    const wallet = window?.modal?.getWalletProvider()
+    console.log(`Wallet Provider ${wallet}`)
+    if (wallet) {
+        provider = new BrowserProvider(wallet)
         signer = await provider.getSigner()
-        console.log(`getSigner ${signer}`)
-    } catch (e) {
-        console.log(`User is not signed in, errror ${e}, using defaultProvider`)
-        // Default modal users
+    } else {
         const network = window?.modal?.options?.defaultChain[0]
-        const url = network?.rpcUrl
-        console.log(network)
-        signer = new JsonRpcProvider(url, Network.from(network), { staticNetwork: network })
+        console.log(`Connecting to ${network?.rpcUrl}`)
+        signer = getDefaultProvider(network?.rpcUrl)
     }
+    console.log(signer)
     return signer
 }
