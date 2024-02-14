@@ -79,4 +79,5 @@ export const onDataChanged = async (event) => {
 export const initializeDatasource = () => {
     document.addEventListener(EVENT.DATA_CHANGED, onDataChanged)
     console.log(`Event listener added for ${EVENT.DATA_CHANGED}`)
+    onDataChanged()
 }
