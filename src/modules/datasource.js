@@ -48,6 +48,7 @@ export const updateFieldsWithValues = (fields, values) => {
  * Handle API calls and data refresh
  */
 export const onDataChanged = async (event) => {
+    console.log(`Firing datasource event ${EVENT.DATA_CHANGED}`)
     // Find all elements with datasource mapping
     const smartContractMappedTextFields = document.querySelectorAll(`[datasource="smart_contract"]`)
     const promises = []
@@ -74,8 +75,7 @@ export const onDataChanged = async (event) => {
     return promises.length
 }
 
-// Listen to data changes to trigger refresh
-document.addEventListener(EVENT.DATA_CHANGED, onDataChanged)
-
-// Trigger on initialization
-onDataChanged()
+export const initializeDatasource = () => {
+    document.addEventListener(EVENT.DATA_CHANGED, onDataChanged)
+    console.log(`Event listener added for ${EVENT.DATA_CHANGED}`)
+}

@@ -1,6 +1,7 @@
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers'
 import { ethers } from 'ethers'
 import { getSigner } from './utils/web3'
+import { initializeDatasource } from './modules/DataSource'
 
 export const version = process?.env?.npm_package_version
 
@@ -13,6 +14,11 @@ export const webstudio = {
 	version,
 	utils: {
 		getSigner
+	},
+	modules: {
+		datasource: {
+			initializeDatasource
+		}
 	}
 }
 

@@ -1,9 +1,18 @@
-import { onDataChanged } from './datasource'
+import { onDataChanged, initializeDatasource } from './datasource'
 import { ethers } from 'ethers'
 
 jest.mock('ethers')
 
 describe('Datasource', () => {
+
+    describe ('initializeDatasource', () => {
+
+        it('adds event listener on data changed event', () => {
+            document.addEventListener = jest.fn()
+            initializeDatasource()
+            expect(document.addEventListener).toHaveBeenCalledWith('DataChanged', onDataChanged)
+        })
+    })
 
     describe('onDataChanged' , () => {
 
