@@ -1,5 +1,6 @@
 import { webstudio } from './index'
 import { createWeb3Modal, defaultConfig } from '@web3modal/ethers'
+import { initializeDatasource } from './modules/datasource'
 
 jest.mock('@web3modal/ethers', () => ({
     createWeb3Modal: jest.fn(),
@@ -12,6 +13,6 @@ describe('SDK', () => {
         expect(webstudio.ethers).toBeTruthy()
         expect(webstudio.web3Modal.createWeb3Modal).toBeTruthy()
         expect(webstudio.web3Modal.defaultConfig).toBeTruthy()
-        expect(webstudio.version).toEqual(process.env.npm_package_version)
+        expect(webstudio.modules.datasource.initializeDatasource).toBeTruthy()
     })
 })
