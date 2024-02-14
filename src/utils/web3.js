@@ -20,9 +20,10 @@ export const getSigner = async () => {
     } catch (e) {
         console.log(`User is not signed in, errror ${e}, using defaultProvider`)
         // Default modal users
-        const url = window?.modal?.options?.defaultChain[0].rpcUrl
-        console.log(url)
-        signer = new JsonRpcProvider(url)
+        const network = window?.modal?.options?.defaultChain[0]
+        const url = network?.rpcUrl
+        console.log(network)
+        signer = new JsonRpcProvider(url, network)
     }
     return signer
 }
