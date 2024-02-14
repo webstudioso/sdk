@@ -10,20 +10,19 @@ const {
  * @returns Provider used for signing contract calls
  */
 export const getSigner = async () => {
-    const wallet = window?.modal?.getWalletProvider()
-    const provider = new BrowserProvider(wallet)
-    const signer = await provider.getSigner()
-    console.log(`getSigner ${signer}`)
+    let signer
+    try {
+        // Signed users
+        const wallet = window?.modal?.getWalletProvider()
+        const provider = new BrowserProvider(wallet)
+        signer = await provider.getSigner()
+        console.log(`getSigner ${signer}`)
+    } catch (e) {
+        console.log(`User is not signed in, errror ${e}, using defaultProvider`)
+        // Default modal users
+        const url = window?.modal?.options?.defaultChain[0].rpcUrl
+        console.log(url)
+        signer = new JsonRpcProvider(url)
+    }
     return signer
-}
-
-/**
- * Uses default configured provider rpc url for read only.
- * Uses data from web3modal block on studio
- */
-export const getDefaultJsonRPCProvider = () => {
-    const url = window?.modal?.options?.defaultChain[0].rpcUrl
-    const provider = new JsonRpcProvider(url)
-    console.log(`getDefaultJsonRPCProvider ${provider}`)
-    return provider
 }
