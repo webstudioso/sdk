@@ -1,10 +1,14 @@
 {
   "name": "webstudio-sdk",
-  "version": "1.0.15",
+  "version": "1.0.16",
   "description": "Webstudio Javascript SDK",
   "main": "dist/main.js",
   "src": "src/index.js",
   "sourceType": "module",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/webstudioso/sdk.git"
+  },
   "scripts": {
     "test": "jest --collectCoverage=true",
     "test-ci": "jest --ci --coverage",

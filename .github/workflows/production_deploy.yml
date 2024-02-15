@@ -3,14 +3,23 @@ on:
   push:
     branches:
       - master
+    tags:
+      - v*
+  pull_request:
+  release:
+    types: [published]
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: '20.x'
+          registry-url: 'https://npm.pkg.github.com'
       - name: Install dependencies
         run: npm i
       - name: Tests
